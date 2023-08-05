@@ -45,7 +45,12 @@ module.exports = {
         'You need to be in a VC to use this command'
       );
 
-    const queue = client.player.nodes.create(interaction.guild);
+    const queue = client.player.nodes.create(interaction.guild, {
+      leaveOnEmpty: false,
+      leaveOnEnd: false,
+      initialVolume: 75,
+      leaveOnEmptyCooldown: 5000,
+    });
     if (!queue.connection)
       await queue.connect(interaction.member.voice.channel);
 
@@ -66,6 +71,7 @@ module.exports = {
       await queue.addTrack(song);
 
       embed
+        .setAuthor({ name: 'Trackinfo 🎵' })
         .setDescription(
           `**[${song.title}](${song.url})** has been added to the Queue`
         )
@@ -86,7 +92,7 @@ module.exports = {
       await entry.getTask();
       await queue.addTrack(result.tracks);
       embed
-
+        .setAuthor({ name: 'PlalistInfo 🎵' })
         .setThumbnail(playlist.thumbnail)
         .setDescription(
           `**${result.tracks.length} songs from [${playlist?.title}](${playlist?.url})** have been added to the Queue`
@@ -106,6 +112,7 @@ module.exports = {
       await entry.getTask();
       await queue.addTrack(song);
       embed
+        .setAuthor({ name: 'Trackinfo 🎵' })
         .setDescription(
           `**[${song.title}](${song.url})** has been added to the Queue`
         )

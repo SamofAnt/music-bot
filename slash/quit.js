@@ -1,6 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
-
 const { QueryType } = require('discord-player');
 
 module.exports = {
@@ -14,6 +13,7 @@ module.exports = {
     if (!queue)
       return await interaction.editReply('There are no songs in the queue');
 
+    queue.tracks.clear();
     const result = await client.player.search(
       'https://www.youtube.com/watch?v=3I_UDfjb5L0&ab_channel=TriedKino',
       {
@@ -23,7 +23,6 @@ module.exports = {
     );
     await queue.addTrack(result.tracks[0]);
     await queue.node.play();
-    if (!queue.isPlaying()) queue.delete();
     await interaction.editReply('Bye!');
   },
 };

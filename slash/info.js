@@ -17,14 +17,17 @@ module.exports = {
       length: 19,
     });
 
-    const song = queue.currentTrack;
+    const currentTrack = queue.currentTrack;
 
     await interaction.editReply({
       embeds: [
         new EmbedBuilder()
-          .setThumbnail(song.thumbnail)
+          .setAuthor({ name: 'Trackinfo 🎵' })
+          .setThumbnail(currentTrack.thumbnail)
           .setDescription(
-            `Currently Playing [${song.title}](${song.url})\n\n` + bar
+            `Currently Playing [${currentTrack.title}](${currentTrack.url})\n\n` +
+              `~ Requested by: ${currentTrack.requestedBy.toString()} \n\n` +
+              bar
           ),
       ],
     });
