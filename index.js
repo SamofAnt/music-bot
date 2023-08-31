@@ -7,7 +7,7 @@ const { QueryType, useHistory } = require('discord-player');
 const { joinVoiceChannel } = require('@discordjs/voice');
 const { Routes } = require('discord-api-types/v9');
 const fs = require('fs');
-const { TOKEN } = require('./config.json');
+const { TOKEN, version } = require('./config.json');
 const { Player } = require('discord-player');
 const Logger = require('./src/modules/logger');
 const {
@@ -107,11 +107,11 @@ if (LOAD_SLASH) {
       const messageInput = fields.getTextInputValue('messageInput');
 
       const embed = new EmbedBuilder()
-        .setTitle('New Announcement')
-        .setDescription(messageInput)
+        .setTitle(`${version} version is released!`)
+        .setDescription(`${messageInput}`)
         .setTimestamp();
 
-      channel.send({ embeds: [embed] });
+      channel.send({ content: '@everyone ', embeds: [embed] });
     }
   });
 

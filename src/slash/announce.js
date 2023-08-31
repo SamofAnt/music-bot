@@ -33,6 +33,12 @@ module.exports = {
 
       modal.addComponents(Row);
       await interaction.showModal(modal);
+    } else {
+      const channelId = '1146671258151424000';
+      await interaction.reply({
+        content: `This command can only be used in <#${channelId}>!`,
+        ephemeral: true,
+      });
     }
   },
 };

@@ -18,7 +18,9 @@ module.exports = {
       embeds: [
         new EmbedBuilder()
           .setColor('#7f0aad')
-          .setDescription(`${currentSong.title} has been skipped!`)
+          .setDescription(
+            `${interaction.user} has skipped ${currentSong.title}!`
+          )
           .setThumbnail(currentSong.thumbnail),
       ],
     });
