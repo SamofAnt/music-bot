@@ -40,4 +40,4 @@ jobs:
           git config --global user.name "SamofAnt"
           git push --follow-tags https://github.com/SamofAnt/music-bot.git HEAD:dev
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: secrets.GH_TOKEN
