@@ -1,9 +1,9 @@
 name: Version Bump
 
 on:
-  push:
+  pull_request:
     branches:
-      - dev
+      - main
 
 jobs:
   bump_version:
@@ -21,23 +21,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Check for changes and commit/stash
-        run: |
-          if [[ $(git status --porcelain) ]]; then
-            git stash push --include-untracked
-          fi
-          
-      - name: Configure Git User
-        run: |
-          git config --global user.email "samofalov.19982805@gmail.com"
-          git config --global user.name "SamofAnt"
-
       - name: Bump version and push
         run: |
           # Choose your bump type: patch, minor, or major
           npm version patch
-          git config --global user.email "samofalov.19982805@gmail.com"
-          git config --global user.name "SamofAnt"
-          git push --follow-tags https://github.com/SamofAnt/music-bot.git HEAD:dev
+          git push --follow-tags
+
         env:
-          GH_TOKEN: secrets.GH_TOKEN
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
