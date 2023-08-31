@@ -7,7 +7,7 @@ const { QueryType, useHistory } = require('discord-player');
 const { joinVoiceChannel } = require('@discordjs/voice');
 const { Routes } = require('discord-api-types/v9');
 const fs = require('fs');
-const { TOKEN, version } = require('./config.json');
+const { TOKEN } = require('./config.json');
 const { Player } = require('discord-player');
 const Logger = require('./src/modules/logger');
 const {
@@ -16,6 +16,15 @@ const {
 } = require('@discord-player/extractor');
 
 dotenv.config();
+
+// Read the content of package.json
+const packageJsonContent = fs.readFileSync('package.json', 'utf8');
+
+// Parse the JSON content
+const packageJson = JSON.parse(packageJsonContent);
+
+// Access the version field
+const version = packageJson.version;
 
 const { YouTubeExtractor } = require('@discord-player/extractor');
 

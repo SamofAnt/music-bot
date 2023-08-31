@@ -6,6 +6,7 @@ const {
   ButtonBuilder,
   ButtonStyle,
 } = require('discord.js');
+const fs = require('fs');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
 
@@ -22,8 +23,16 @@ module.exports = {
     const userCount = format(
       client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
     );
-    const commandCount = format(client.slashcommands.size);
+    // Read the content of package.json
+    const packageJsonContent = fs.readFileSync('package.json', 'utf8');
 
+    // Parse the JSON content
+    const packageJson = JSON.parse(packageJsonContent);
+
+    // Access the version field
+    const version = packageJson.version;
+    const commandCount = format(client.slashcommands.size);
+    const userId = '215445260942311429';
     const createdAt = new Date(client.user.createdAt);
     const uptime = client.utils.formatDuration(
       Math.floor(client.uptime / 1000)
@@ -40,8 +49,9 @@ module.exports = {
           value: `Bot Id: ${client.user.id}
 Bot Tag: ${client.user.tag}
 Created At : ${time(createdAt, 'F')}
-Developer: [theevilshot]
-Prefix: /`,
+Developer: <@${userId}>
+Prefix: /
+version: v${version}`,
         },
         {
           name: 'Bot Stats',
