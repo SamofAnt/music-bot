@@ -17,6 +17,7 @@ module.exports = {
     await interaction.editReply({
       embeds: [
         new EmbedBuilder()
+          .setColor('#7f0aad')
           .setDescription(`${currentSong.title} has been skipped!`)
           .setThumbnail(currentSong.thumbnail),
       ],

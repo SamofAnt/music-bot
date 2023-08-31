@@ -1,14 +1,15 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const Discord = require('discord.js');
 const dotenv = require('dotenv');
+const { EmbedBuilder } = require('discord.js');
 const { REST } = require('@discordjs/rest');
-
+const { QueryType, useHistory } = require('discord-player');
 const { joinVoiceChannel } = require('@discordjs/voice');
 const { Routes } = require('discord-api-types/v9');
 const fs = require('fs');
 
 const { Player } = require('discord-player');
-
+const Logger = require('./src/modules/logger');
 const {
   SpotifyExtractor,
   SoundCloudExtractor,
@@ -33,7 +34,8 @@ const client = new Client({
     GatewayIntentBits.GuildVoiceStates,
   ],
 });
-
+client.utils = require('./src/modules/utils');
+client.logger = Logger;
 client.slashcommands = new Discord.Collection();
 
 client.player = new Player(client, {
@@ -51,10 +53,10 @@ client.player.extractors.register(SoundCloudExtractor);
 let commands = [];
 
 const slashFiles = fs
-  .readdirSync('./slash')
+  .readdirSync('./src/slash')
   .filter((file) => file.endsWith('.js'));
 for (const file of slashFiles) {
-  const slashcmd = require(`./slash/${file}`);
+  const slashcmd = require(`./src/slash/${file}`);
   client.slashcommands.set(slashcmd.data.name, slashcmd);
   if (LOAD_SLASH) commands.push(slashcmd.data.toJSON());
 }
@@ -73,6 +75,12 @@ if (LOAD_SLASH) {
 } else {
   client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
+
+    client.user.setActivity({
+      name: 'Gachi porn | /help',
+      type: Discord.ActivityType.Streaming,
+      url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    });
   });
   client.on('interactionCreate', (interaction) => {
     async function handleCommand() {
@@ -81,9 +89,33 @@ if (LOAD_SLASH) {
       if (!slashcmd) interaction.reply('Not a valid slash command');
 
       await interaction.deferReply();
+
       await slashcmd.run({ client, interaction });
     }
+
     handleCommand();
   });
+  // client.player.events.on('playerFinish', async (queue, track) => {
+  //   //const nextTrack = useHistory(interaction.guild.id).nextTrack;
+  //   // if (nextTrack) {
+  //   //   // await interaction.channel.send({
+  //   //   //   embeds: [
+  //   //   //     new EmbedBuilder()
+
+  //   //   //       .setColor('#7f0aad')
+  //   //   //       .setAuthor({ name: 'Track Info 🎵' })
+  //   //   //       .setDescription(
+  //   //   //         `**[${nextTrack.title}](${nextTrack.url})** will be playing next`
+  //   //   //       )
+  //   //   //       .setThumbnail(nextTrack.thumbnail)
+  //   //   //       .setTimestamp()
+  //   //   //       .setFooter({ text: `Duration: ${nextTrack.duration}` }),
+  //   //   //   ],
+  //   //   // });
+  //   console.log('playerFinish');
+  //   // }
+  // });
+
+  require('./src/handlers/EventHandler')(client);
   client.login(TOKEN);
 }

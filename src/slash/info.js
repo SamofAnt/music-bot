@@ -9,7 +9,7 @@ module.exports = {
   run: async ({ client, interaction }) => {
     const queue = client.player.nodes.get(interaction.guildId);
 
-    if (!queue)
+    if (!queue || !queue.currentTrack)
       return await interaction.editReply('There are no songs in the queue');
 
     let bar = queue.node.createProgressBar({
@@ -22,6 +22,7 @@ module.exports = {
     await interaction.editReply({
       embeds: [
         new EmbedBuilder()
+          .setColor('#7f0aad')
           .setAuthor({ name: 'Trackinfo 🎵' })
           .setThumbnail(currentTrack.thumbnail)
           .setDescription(

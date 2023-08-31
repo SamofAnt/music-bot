@@ -23,10 +23,10 @@ module.exports = {
         'Provided track number does not exist'
       );
 
-    queue.node.skipTo(trackNumber);
     const track = queue.tracks.toArray()[trackNumber];
+    queue.node.skipTo(trackNumber);
     await interaction.editReply(
-      `Jumped to track **[${track.title}](${track.url})**`
+      `Skipped to track **[${track.title}](${track.url})**`
     );
   },
 };

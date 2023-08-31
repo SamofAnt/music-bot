@@ -22,7 +22,7 @@ module.exports = {
     if (!queue)
       return await interaction.editReply('There are no songs in the queue');
 
-    const trimmedLyrics = lyrics.lyrics.substring(0, 1997);
+    const trimmedLyrics = lyrics.lyrics.substring(0, 4000);
 
     const embed = new EmbedBuilder()
       .setTitle(lyrics.title)
@@ -34,7 +34,7 @@ module.exports = {
         url: lyrics.artist.url,
       })
       .setDescription(
-        trimmedLyrics.length === 1997 ? `${trimmedLyrics}...` : trimmedLyrics
+        trimmedLyrics.length === 4000 ? `${trimmedLyrics}...` : trimmedLyrics
       )
       .setColor('Yellow');
 
