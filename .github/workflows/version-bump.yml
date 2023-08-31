@@ -26,6 +26,11 @@ jobs:
           if [[ $(git status --porcelain) ]]; then
             git stash push --include-untracked
           fi
+          
+      - name: Configure Git User
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
 
       - name: Bump version and push
         run: |
