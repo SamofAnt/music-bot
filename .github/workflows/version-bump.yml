@@ -21,6 +21,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Check for changes and commit/stash
+        run: |
+          if [[ $(git status --porcelain) ]]; then
+            git stash push --include-untracked
+          fi
+
       - name: Bump version and push
         run: |
           # Choose your bump type: patch, minor, or major
