@@ -36,4 +36,8 @@ jobs:
         run: |
           # Choose your bump type: patch, minor, or major
           npm version patch
-          git push --follow-tags
+          git config --global user.email "samofalov.19982805@gmail.com"
+          git config --global user.name "SamofAnt"
+          git push --follow-tags https://github.com/SamofAnt/music-bot.git HEAD:dev
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
