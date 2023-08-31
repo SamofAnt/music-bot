@@ -14,6 +14,10 @@ module.exports = {
       .setTimestamp()
       .setFooter({ text: `Duration: ${track.duration}` });
 
-    return queue.metadata.channel.send({ embeds: [embed] });
+    return queue.metadata.channel.send({ embeds: [embed] }).then((message) => {
+      setTimeout(() => {
+        message.delete();
+      }, 1000 * 60 * 4);
+    });
   },
 };

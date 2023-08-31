@@ -7,7 +7,7 @@ const { QueryType, useHistory } = require('discord-player');
 const { joinVoiceChannel } = require('@discordjs/voice');
 const { Routes } = require('discord-api-types/v9');
 const fs = require('fs');
-
+const { TOKEN } = require('./config.json');
 const { Player } = require('discord-player');
 const Logger = require('./src/modules/logger');
 const {
@@ -16,7 +16,6 @@ const {
 } = require('@discord-player/extractor');
 
 dotenv.config();
-const TOKEN = process.env.TOKEN;
 
 const { YouTubeExtractor } = require('@discord-player/extractor');
 
@@ -92,30 +91,28 @@ if (LOAD_SLASH) {
 
       await slashcmd.run({ client, interaction });
     }
+    if (!interaction.isModalSubmit()) handleCommand();
+    else {
+      const { type, customId, channel, guild, user, fields } = interaction;
 
-    handleCommand();
+      console.log(!interaction.isModalSubmit());
+      console.log(interaction.fields);
+      if (!interaction.isModalSubmit()) return;
+      if (!guild || user.bot) return;
+
+      if (customId !== 'announce-modal')
+        interaction.deferReply({ ephemeral: true });
+
+      const messageInput = fields.getTextInputValue('messageInput');
+
+      const embed = new EmbedBuilder()
+        .setTitle('New Announcement')
+        .setDescription(messageInput)
+        .setTimestamp();
+
+      channel.send({ embeds: [embed] });
+    }
   });
-  // client.player.events.on('playerFinish', async (queue, track) => {
-  //   //const nextTrack = useHistory(interaction.guild.id).nextTrack;
-  //   // if (nextTrack) {
-  //   //   // await interaction.channel.send({
-  //   //   //   embeds: [
-  //   //   //     new EmbedBuilder()
-
-  //   //   //       .setColor('#7f0aad')
-  //   //   //       .setAuthor({ name: 'Track Info 🎵' })
-  //   //   //       .setDescription(
-  //   //   //         `**[${nextTrack.title}](${nextTrack.url})** will be playing next`
-  //   //   //       )
-  //   //   //       .setThumbnail(nextTrack.thumbnail)
-  //   //   //       .setTimestamp()
-  //   //   //       .setFooter({ text: `Duration: ${nextTrack.duration}` }),
-  //   //   //   ],
-  //   //   // });
-  //   console.log('playerFinish');
-  //   // }
-  // });
-
   require('./src/handlers/EventHandler')(client);
   client.login(TOKEN);
 }
