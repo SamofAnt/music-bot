@@ -17,7 +17,7 @@ module.exports = {
     return queue.metadata.channel.send({ embeds: [embed] }).then((message) => {
       setTimeout(() => {
         message.delete();
-      }, 1000 * 60 * 4);
+      }, 1000 * 60 * 2);
     });
   },
 };

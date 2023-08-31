@@ -82,17 +82,18 @@ if (LOAD_SLASH) {
     });
   });
   client.on('interactionCreate', (interaction) => {
-    async function handleCommand() {
-      if (!interaction.isCommand()) return;
-      const slashcmd = client.slashcommands.get(interaction.commandName);
-      if (!slashcmd) interaction.reply('Not a valid slash command');
+    if (!interaction.isModalSubmit()) {
+      async function handleCommand() {
+        if (!interaction.isCommand()) return;
+        const slashcmd = client.slashcommands.get(interaction.commandName);
+        if (!slashcmd) interaction.reply('Not a valid slash command');
 
-      await interaction.deferReply();
+        if (slashcmd.data.name !== 'announce') await interaction.deferReply();
 
-      await slashcmd.run({ client, interaction });
-    }
-    if (!interaction.isModalSubmit()) handleCommand();
-    else {
+        await slashcmd.run({ client, interaction });
+      }
+      handleCommand();
+    } else {
       const { type, customId, channel, guild, user, fields } = interaction;
 
       console.log(!interaction.isModalSubmit());
@@ -113,6 +114,7 @@ if (LOAD_SLASH) {
       channel.send({ embeds: [embed] });
     }
   });
+
   require('./src/handlers/EventHandler')(client);
   client.login(TOKEN);
 }
