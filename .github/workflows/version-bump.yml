@@ -1,0 +1,28 @@
+name: Version Bump
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  bump_version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Bump version and push
+        run: |
+          # Choose your bump type: patch, minor, or major
+          npm version patch
+          git push --follow-tags
