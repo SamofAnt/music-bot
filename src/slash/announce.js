@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fs = require('fs');
+
 const { QueryType, useHistory } = require('discord-player');
 const {
   EmbedBuilder,

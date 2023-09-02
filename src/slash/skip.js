@@ -23,6 +23,7 @@ module.exports = {
           )
           .setThumbnail(currentSong.thumbnail),
       ],
+      ephemeral: true,
     });
   },
 };

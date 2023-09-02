@@ -16,7 +16,7 @@ module.exports = {
   run: async ({ client, interaction }) => {
     const queue = client.player.nodes.get(interaction.guildId);
 
-    if (!queue.currentTrack || !queue) {
+    if (!queue || !queue.currentTrack) {
       return await interaction.editReply('There are no songs in the queue');
     }
 

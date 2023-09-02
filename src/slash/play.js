@@ -67,6 +67,25 @@ module.exports = {
       if (!queue.isPlaying()) {
         await queue.node.play();
       }
+    } catch (error) {
+      //const previousTrack = queue.currentTrack;
+
+      embed
+        .setColor('#FF0000')
+
+        .setTitle('Something went wrong')
+        .setAuthor({ name: 'Error' })
+        .setDescription(
+          `An error occurred with the previous track:\n\n${error.message.substr(
+            0,
+            error.message.indexOf('at ')
+          )} ...`
+        );
+      // .addField(
+      //   'Previous Track',
+      //   `${previousTrack.title} by ${previousTrack.artist}`
+      // );
+      queue.node.skip();
     } finally {
       queue.tasksQueue.release();
     }
