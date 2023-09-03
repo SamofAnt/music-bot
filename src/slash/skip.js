@@ -14,16 +14,16 @@ module.exports = {
 
     const currentSong = queue.currentTrack;
     queue.node.skip();
-    await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setColor('#7f0aad')
-          .setDescription(
-            `${interaction.user} has skipped ${currentSong.title}!`
-          )
-          .setThumbnail(currentSong.thumbnail),
-      ],
-      ephemeral: true,
-    });
+    // await interaction.editReply({
+    //   embeds: [
+    //     new EmbedBuilder()
+    //       .setColor('#7f0aad')
+    //       .setDescription(
+    //         `${interaction.user} has skipped ${currentSong.title}!`
+    //       )
+    //       .setThumbnail(currentSong.thumbnail),
+    //   ],
+    //   ephemeral: true,
+    // });
   },
 };

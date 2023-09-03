@@ -25,6 +25,7 @@ module.exports = {
       initialVolume: 75,
       leaveOnEmptyCooldown: 5000,
       metadata: interaction,
+      skipOnNoStream: true,
     });
     if (!queue.connection)
       await queue.connect(interaction.member.voice.channel);

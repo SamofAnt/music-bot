@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   name: 'playerError',
-  execute(bot, queue, error) {
+  execute(bot, queue, error, track) {
     //if (!bot.utils.havePermissions(queue.metadata.channel)) return;
     const embed = new EmbedBuilder();
     console.log('playerError');
@@ -17,8 +17,12 @@ module.exports = {
           error.message.indexOf('at ')
         )} ...`
       )
-      .addField('Previous Track', `${track.title}`);
+      .setThumbnail(track.thumbnail)
+      .addFields({
+        name: 'Previous Track',
+        value: `**[${track.title}](${track.url})**`,
+      });
     queue.node.skip();
-    return queue.metadata.channel.send({ embeds: [embed] });
+    return queue.metadata.channel.send({ embeds: [embed], ephemeral: true });
   },
 };
